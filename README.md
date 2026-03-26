@@ -116,6 +116,7 @@ Por exemplo, você pode incluir na fixture uma questão com múltiplas escolhas,
 
 Um exemplo simples do uso fixtures pode ser visto abaixo:
 
+
 ```python
 @pytest.fixture
 def data():

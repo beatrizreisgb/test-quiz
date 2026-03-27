@@ -130,3 +130,34 @@ def test_no_correct_choices():
     result = q.correct_selected_choices([1, 2])
 
     assert len(result) == 0
+
+# novos testes usando fixture 
+
+@pytest.fixture
+def fixed_question():
+    q = Question(title='q1')
+    c1 = q.add_choice('a', True)
+    c2 = q.add_choice('b', False)
+    c3 = q.add_choice('c', False)
+    choices_list = [c1, c2, c3]
+    return q, choices_list
+
+# teste 11: checagem de ids únicos após remoção
+def test_ids_after_removal(fixed_question):
+    q, choices_list = fixed_question
+
+    q.remove_choice_by_id(choices_list[1].id)
+    c4 = q.add_choice('d', False)
+
+    assert choices_list[0].id != c4.id
+    assert choices_list[2].id != c4.id
+
+# teste 12: acrescentar mais alternativas corretas a uma questão
+def test_overwrite_correct_choices(fixed_question):
+    q, choices = fixed_question
+
+    q.set_correct_choices([choices[1].id, choices[2].id])
+
+    assert choices[0].is_correct
+    assert choices[1].is_correct
+    assert choices[2].is_correct
